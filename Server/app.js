@@ -41,4 +41,9 @@ app.post("/api/forms", (req,res) => {
     res.send("form added successfully")
 })
 
+app.post("/api/forms/submit",(req,res) => {
+    console.log(req.body)
+    res.send("submitted")
+})
+
 module.exports = app
