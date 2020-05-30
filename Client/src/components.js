@@ -1,40 +1,37 @@
 import React from 'react';
-import { TextField, FormControl, Select, MenuItem, InputLabel, makeStyles } from '@material-ui/core';
+import { TextField, MenuItem, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     field: {
+//         margin: theme.spacing(1),
+//         minWidth: 150,
+//     },
+// }));
 
-function NormalField() {
-    const classes = useStyles();
-    return (
-        <TextField className={classes.formControl}
-        id="outlined-basic" label="Field" variant="outlined" />
-    );
+class NormalField extends React.Component {
+
+    render() {
+        return (
+            <TextField id="outlined-basic" label={this.props.name} variant="outlined"
+                onChange={this.props.onChange} />
+        );
+    }
 }
 
-function SelectField() {
-    const classes = useStyles();
-    return (
-        <FormControl className={classes.formControl} variant="outlined">
-            <InputLabel id="demo-simple-select-outlined-label">Number</InputLabel>
-            <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                label="Number"
-            >
+class SelectField extends React.Component {
+    render() {
+        return (
+            <TextField select onChange={this.props.onChange}
+                id="outlined-basic" label={this.props.name} variant="outlined" >
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
                 <MenuItem value={10}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-        </FormControl>
-    );
+            </ TextField>
+        );
+    }
 }
 
 export { NormalField, SelectField };
