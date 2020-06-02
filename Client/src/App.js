@@ -1,5 +1,5 @@
 import React from 'react';
-import { NormalField, SelectField } from './components';
+import { NormalField, SelectField } from './components/MUI_components';
 
 class App extends React.Component {
 
