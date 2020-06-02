@@ -7,19 +7,35 @@ let serverAPI = "http://localhost:8000/api/forms/";
 export default class SingleForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+        form:"",
+        title:""
+    };
     this.handler = this.handler.bind(this);
   }
 
   async componentDidMount() {
     axios
-      .get(serverAPI.concat(this.props.id))
+      .get(serverAPI.concat(this.props.match.params.id))
       .then((response) => {
-          this.setState({form:JSON.stringify(response.data)})
+          this.setState({form:response.data,
+        title:response.data.title})
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  async componentDidUpdate(){
+    axios
+    .get(serverAPI.concat(this.props.match.params.id))
+    .then((response) => {
+        this.setState({form:response.data,
+      title:response.data.title})
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   componentWillUnmount() {}
@@ -29,7 +45,7 @@ export default class SingleForm extends React.Component {
   render() {
     return (
       <p>
-          {this.state.form}
+          {JSON.stringify(this.state.form)}
       </p>
     );
   }

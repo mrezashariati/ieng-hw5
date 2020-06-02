@@ -4,13 +4,14 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "antd/dist/antd.css";
 import { List, Typography, Divider } from "antd";
 import axios from "axios";
+import SingleForm from "./components/singleForm";
 
 let serverAPI = "http://localhost:8000/api/forms";
 
-export default class HomePage extends React.Component {
+export default class PGApp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {title_id:[]};
     this.handler = this.handler.bind(this);
     this.header = "Choose one of the forms below to start filling...";
     this.footer = "";
@@ -21,12 +22,18 @@ export default class HomePage extends React.Component {
       .get(serverAPI)
       .then((response) => {
         let titles = [];
+        let ids = [];
         for (let i = 0; i < response.data.forms.length; i++) {
           titles.push(response.data.forms[i].title);
+          ids.push(response.data.forms[i].id);
         }
+        let title_id = titles.map(function (t, i) {
+          return [t, ids[i]];
+        });
+
         this.setState({
           forms: response,
-          titles: titles,
+          title_id: title_id,
         });
       })
       .catch((err) => {
@@ -38,6 +45,18 @@ export default class HomePage extends React.Component {
 
   handler() {}
 
+  getRoutes() {
+    let routes = [];
+    for (let i = 0; i < this.state.title_id.length; i++) {
+      routes.push(
+        <Route path={"/api/forms/".concat(this.state.title_id[i][1])}>
+          <SingleForm id={this.state.title_id[i][1]} />
+        </Route>
+      );
+    }
+    return routes
+  }
+
   render() {
     return (
       <Router>
@@ -45,20 +64,17 @@ export default class HomePage extends React.Component {
         <List
           header={<div>{this.header}</div>}
           bordered
-          dataSource={this.state.titles}
+          dataSource={this.state.title_id}
           renderItem={(item) => (
             <List.Item>
-              <Link to="/api/forms/id">
-                <Typography.Text mark>[ITEM]</Typography.Text> {item}
+              <Link to={"/api/forms/".concat(item[1])}>
+                <Typography.Text mark>[ITEM]</Typography.Text>{" "}
+                {`${item[0]} (ID:${item[1]})`}
               </Link>
             </List.Item>
           )}
         />
-        <Switch>
-          <Route path="/api/forms/">
-            <About />
-          </Route>
-        </Switch>
+        <Switch>{this.getRoutes()}</Switch>
       </Router>
     );
   }
