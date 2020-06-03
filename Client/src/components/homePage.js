@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import "antd/dist/antd.css";
 import { List, Typography, Divider } from "antd";
 import axios from "axios";
@@ -49,9 +49,7 @@ export default class PGApp extends React.Component {
     let routes = [];
     for (let i = 0; i < this.state.title_id.length; i++) {
       routes.push(
-        <Route path={"/api/forms/".concat(this.state.title_id[i][1])}>
-          <SingleForm id={this.state.title_id[i][1]} />
-        </Route>
+        <Route path={"/api/forms/:id"} component={SingleForm}/>
       );
     }
     return routes
