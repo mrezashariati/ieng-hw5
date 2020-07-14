@@ -11,7 +11,7 @@ let serverAPI = "http://localhost:8000/api/forms";
 export default class PGApp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {title_id:[]};
+    this.state = { title_id: [] };
     this.handler = this.handler.bind(this);
     this.header = "Choose one of the forms below to start filling...";
     this.footer = "";
@@ -41,15 +41,15 @@ export default class PGApp extends React.Component {
       });
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
-  handler() {}
+  handler() { }
 
   getRoutes() {
     let routes = [];
     for (let i = 0; i < this.state.title_id.length; i++) {
       routes.push(
-        <Route path={"/api/forms/:id"} component={SingleForm}/>
+        <Route path={"/api/forms/:id"} component={SingleForm} />
       );
     }
     return routes
@@ -72,6 +72,7 @@ export default class PGApp extends React.Component {
             </List.Item>
           )}
         />
+        <br/>
         <Switch>{this.getRoutes()}</Switch>
       </Router>
     );

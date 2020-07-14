@@ -1,7 +1,7 @@
 import React from "react";
 import "antd/dist/antd.css";
 import axios from "axios";
-import Form from "antd";
+import { Form, Button } from "antd";
 import MyDatePicker from "./datePicker";
 import TextInput from "./textInput";
 import NumericInput from "./numericInput";
@@ -9,14 +9,37 @@ import SubmitButton from "./submitButton";
 
 let serverAPI = "http://localhost:8000/api/forms/";
 
+let layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 12 },
+};
+
+let tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+
+let data = new Map();
+
+
 export default class SingleForm extends React.Component {
   constructor(props) {
     super(props);
-    this.txtOnChange = this.txtOnChange.bind(this);
+    this.txtOnChange = this.dataOnChange.bind(this);
     this.state = {
       form: "",
     };
   }
+
+  onFinish = values => {
+    alert('Submitted')
+    console.log(values);
+    console.log(Object.fromEntries(data));
+  };
+
+  onFinishFailed = errorInfo => {
+    alert('Failed');
+    console.log(errorInfo);
+  };
 
   async componentDidMount() {
     axios
@@ -25,46 +48,60 @@ export default class SingleForm extends React.Component {
         let items = [];
         for (let i = 0; i < response.data.fields.length; i++) {
           const element = response.data.fields[i];
+          let item;
           switch (element.type) {
             case "Text":
-              items.push(
+              item = (
                 <TextInput
                   name={element.name}
                   title={element.title}
-                  required={element.required}
                   options={element.options}
-                  onChange={this.txtOnChange}
+                  onChange={this.dataOnChange}
                 ></TextInput>
               );
               break;
             case "Number":
-              items.push(
+              item = (
                 <NumericInput
                   name={element.name}
                   title={element.title}
-                  required={element.required}
                   options={element.options}
-                  onChange={this.txtOnChange}
+                  onChange={this.dataOnChange}
                 ></NumericInput >
               );
               break;
             case "Date":
-              items.push(
+              item = (
                 <MyDatePicker
                   name={element.name}
                   title={element.title}
-                  required={element.required}
                   options={element.options}
-                  // onChange={this.txtOnChange}
+                  onChange={this.dataOnChange}
                 ></MyDatePicker>
               );
               break;
             case "Location":
-              // code block
+              // TODO
               break;
             default:
           }
+          items.push(
+            <Form.Item
+              label={element.title}
+              name={element.title}
+              rules={[{ required: element.required }]}
+            >
+              {item}
+            </Form.Item>
+          )
         }
+        items.push(
+          <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        )
         this.setState({ form: response.data, items: items });
       })
       .catch((err) => {
@@ -74,11 +111,19 @@ export default class SingleForm extends React.Component {
 
   componentWillUnmount() { }
 
-  txtOnChange(value) {
-    console.log(value)
+  dataOnChange = (name, value) => {
+    data.set(name, value);
   }
 
   render() {
-    return <p>{this.state.items}</p>;
+    return (<Form
+      {...layout}
+      name="basic"
+      initialValues={{ remember: true }}
+      onFinish={this.onFinish}
+      onFinishFailed={this.onFinishFailed}
+    >
+      {this.state.items}
+    </Form>)
   }
 }
