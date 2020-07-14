@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-ro
 import "antd/dist/antd.css";
 import { List, Typography, Divider } from "antd";
 import axios from "axios";
-import SingleForm from "./components/singleForm";
+import SingleForm from "./singleForm";
 
 let serverAPI = "http://localhost:8000/api/forms";
 

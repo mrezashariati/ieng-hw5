@@ -1,26 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
+import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 
-export default class DatePicker extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  async componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  handler() {}
+export default class MyDatePicker extends React.Component {
 
   render() {
-    return <></>;
+    return <DatePicker 
+            onChange={this.props.onChange} 
+            addonBefore={this.props.title}
+           />;
   }
 }

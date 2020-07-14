@@ -5,18 +5,29 @@
       "id": "1234",
       "fields": [
         {
-          "name": "First_Name",
-          "title": "First Name",
+          "name": "Name",
+          "title": "A Text",
           "type": "Text",
           "required": true
         },
         {
+          "name": "Num",
+          "title": "A Float Number",
+          "type": "Number",
+          "required": true
+        },
+        {
           "name": "Loc",
-          "title": "Your Location",
+          "title": "A Location",
           "type": "Location",
           "required": false
         },
-
+        {
+          "name": "Date1",
+          "title": "A Date",
+          "type": "Date",
+          "required": false
+        },
         {
           "name": "Request_Type",
           "title": "Request Type",

@@ -1,7 +1,6 @@
 import { Input, Tooltip } from 'antd';
 import React from "react";
 
-
 function formatNumber(value) {
   value += '';
   const list = value.split('.');
@@ -41,16 +40,9 @@ class NumericInput extends React.Component {
   };
 
   render() {
-    const { value } = this.props;
-    const title = value ? (
-      <span className="numeric-input-title">{value !== '-' ? formatNumber(value) : '-'}</span>
-    ) : (
-      'Input a number'
-    );
     return (
       <Tooltip
         trigger={['focus']}
-        title={title}
         placement="topLeft"
         overlayClassName="numeric-input"
       >
@@ -59,9 +51,28 @@ class NumericInput extends React.Component {
           onChange={this.onChange}
           onBlur={this.onBlur}
           placeholder="Input a number"
+          addonBefore={this.props.title}
           maxLength={25}
         />
       </Tooltip>
+    );
+  }
+}
+
+export default class NumericInputDemo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: '' };
+  }
+
+  onChange = value => {
+    this.setState({ value });
+    this.props.onChange(value);
+  };
+
+  render() {
+    return (
+      <NumericInput value={this.state.value} onChange={this.onChange} title={this.props.title} />
     );
   }
 }

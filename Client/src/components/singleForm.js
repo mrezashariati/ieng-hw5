@@ -1,7 +1,8 @@
 import React from "react";
 import "antd/dist/antd.css";
 import axios from "axios";
-import DatePicker from "./datePicker";
+import Form from "antd";
+import MyDatePicker from "./datePicker";
 import TextInput from "./textInput";
 import NumericInput from "./numericInput";
 import SubmitButton from "./submitButton";
@@ -37,14 +38,31 @@ export default class SingleForm extends React.Component {
               );
               break;
             case "Number":
-              // code block
+              items.push(
+                <NumericInput
+                  name={element.name}
+                  title={element.title}
+                  required={element.required}
+                  options={element.options}
+                  onChange={this.txtOnChange}
+                ></NumericInput >
+              );
               break;
             case "Date":
-              // code block
+              items.push(
+                <MyDatePicker
+                  name={element.name}
+                  title={element.title}
+                  required={element.required}
+                  options={element.options}
+                  // onChange={this.txtOnChange}
+                ></MyDatePicker>
+              );
               break;
             case "Location":
               // code block
               break;
+            default:
           }
         }
         this.setState({ form: response.data, items: items });
@@ -54,10 +72,10 @@ export default class SingleForm extends React.Component {
       });
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
-  txtOnChange(event){
-    console.log(event.target.value)
+  txtOnChange(value) {
+    console.log(value)
   }
 
   render() {
