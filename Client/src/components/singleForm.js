@@ -109,7 +109,9 @@ export default class SingleForm extends React.Component {
       });
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount() { 
+  }
+
 
   dataOnChange = (name, value) => {
     data.set(name, value);

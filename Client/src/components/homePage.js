@@ -49,13 +49,14 @@ export default class PGApp extends React.Component {
     let routes = [];
     for (let i = 0; i < this.state.title_id.length; i++) {
       routes.push(
-        <Route path={"/api/forms/:id"} component={SingleForm} />
+        <Route path={"/api/forms/:id"} render={(props) => <SingleForm {...props} key={Math.random()}></SingleForm>} />
       );
     }
     return routes
   }
 
   render() {
+
     return (
       <Router>
         <Divider orientation="left">Forms</Divider>
@@ -66,7 +67,6 @@ export default class PGApp extends React.Component {
           renderItem={(item) => (
             <List.Item>
               <Link to={"/api/forms/".concat(item[1])}>
-                <Typography.Text mark>[ITEM]</Typography.Text>{" "}
                 {`${item[0]} (ID:${item[1]})`}
               </Link>
             </List.Item>
@@ -78,3 +78,6 @@ export default class PGApp extends React.Component {
     );
   }
 }
+
+
+ 

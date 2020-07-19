@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import PGApp from './components/homePage'
 import * as serviceWorker from './serviceWorker';
 
