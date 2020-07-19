@@ -5,7 +5,8 @@ import { Form, Button } from "antd";
 import MyDatePicker from "./datePicker";
 import TextInput from "./textInput";
 import NumericInput from "./numericInput";
-import SubmitButton from "./submitButton";
+import DropDownMenu from "./dropDown";
+import LocationDropDown from "./locationDropDown";
 
 let serverAPI = "http://localhost:8000/api/forms/";
 
@@ -49,42 +50,59 @@ export default class SingleForm extends React.Component {
         for (let i = 0; i < response.data.fields.length; i++) {
           const element = response.data.fields[i];
           let item;
-          switch (element.type) {
-            case "Text":
+          if (element.options) {
+            if (element.type !== "Location")
               item = (
-                <TextInput
+                <DropDownMenu
                   name={element.name}
                   title={element.title}
                   options={element.options}
                   onChange={this.dataOnChange}
-                ></TextInput>
-              );
-              break;
-            case "Number":
+                ></DropDownMenu>
+              )
+            else
               item = (
-                <NumericInput
+                <LocationDropDown
                   name={element.name}
                   title={element.title}
                   options={element.options}
                   onChange={this.dataOnChange}
-                ></NumericInput >
-              );
-              break;
-            case "Date":
-              item = (
-                <MyDatePicker
-                  name={element.name}
-                  title={element.title}
-                  options={element.options}
-                  onChange={this.dataOnChange}
-                ></MyDatePicker>
-              );
-              break;
-            case "Location":
-              // TODO
-              break;
-            default:
-          }
+                ></LocationDropDown>
+              )
+          } else
+            switch (element.type) {
+              case "Text":
+                item = (
+                  <TextInput
+                    name={element.name}
+                    title={element.title}
+                    onChange={this.dataOnChange}
+                  ></TextInput>
+                );
+                break;
+              case "Number":
+                item = (
+                  <NumericInput
+                    name={element.name}
+                    title={element.title}
+                    onChange={this.dataOnChange}
+                  ></NumericInput >
+                );
+                break;
+              case "Date":
+                item = (
+                  <MyDatePicker
+                    name={element.name}
+                    title={element.title}
+                    onChange={this.dataOnChange}
+                  ></MyDatePicker>
+                );
+                break;
+              case "Location":
+                // TODO
+                break;
+              default:
+            }
           items.push(
             <Form.Item
               label={element.title}
@@ -109,7 +127,7 @@ export default class SingleForm extends React.Component {
       });
   }
 
-  componentWillUnmount() { 
+  componentWillUnmount() {
   }
 
 
