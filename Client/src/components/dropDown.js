@@ -15,7 +15,7 @@ export default class DropDownMenu extends React.Component {
     handleMenuClick = (e) => {
         this.setState({ label: e.item.props.label })
         this.props.onChange(this.props.name, e.key);
-        console.log(e);
+        // console.log(e);
     }
 
     render() {

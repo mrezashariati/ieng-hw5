@@ -7,6 +7,7 @@ import TextInput from "./textInput";
 import NumericInput from "./numericInput";
 import DropDownMenu from "./dropDown";
 import LocationDropDown from "./locationDropDown";
+import Map from "./map";
 
 let serverAPI = "http://localhost:8000/api/forms/";
 
@@ -19,8 +20,6 @@ let tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-let data = new Map();
-
 
 export default class SingleForm extends React.Component {
   constructor(props) {
@@ -29,12 +28,13 @@ export default class SingleForm extends React.Component {
     this.state = {
       form: "",
     };
+    this.data = {};
   }
 
   onFinish = values => {
     alert('Submitted')
-    console.log(values);
-    console.log(Object.fromEntries(data));
+    // console.log(values);
+    console.log(this.data);
   };
 
   onFinishFailed = errorInfo => {
@@ -99,7 +99,13 @@ export default class SingleForm extends React.Component {
                 );
                 break;
               case "Location":
-                // TODO
+                item = (
+                  <Map
+                  name={element.name}
+                  title={element.title}
+                  onChange={this.dataOnChange}
+                  ></Map>
+                )
                 break;
               default:
             }
@@ -127,12 +133,8 @@ export default class SingleForm extends React.Component {
       });
   }
 
-  componentWillUnmount() {
-  }
-
-
   dataOnChange = (name, value) => {
-    data.set(name, value);
+    this.data[name] = value;
   }
 
   render() {

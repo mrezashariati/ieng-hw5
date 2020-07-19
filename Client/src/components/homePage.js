@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import "antd/dist/antd.css";
-import { List, Typography, Divider } from "antd";
+import { List, Divider } from "antd";
 import axios from "axios";
 import SingleForm from "./singleForm";
 
@@ -13,7 +12,7 @@ export default class PGApp extends React.Component {
     super(props);
     this.state = { title_id: [] };
     this.handler = this.handler.bind(this);
-    this.header = "Choose one of the forms below to start filling...";
+    this.header = "";
     this.footer = "";
   }
 
@@ -49,7 +48,7 @@ export default class PGApp extends React.Component {
     let routes = [];
     for (let i = 0; i < this.state.title_id.length; i++) {
       routes.push(
-        <Route path={"/api/forms/:id"} render={(props) => <SingleForm {...props} key={Math.random()}></SingleForm>} />
+        <Route path={"/forms/:id"} render={(props) => <SingleForm {...props} key={Math.random()}></SingleForm>} />
       );
     }
     return routes
@@ -66,7 +65,7 @@ export default class PGApp extends React.Component {
           dataSource={this.state.title_id}
           renderItem={(item) => (
             <List.Item>
-              <Link to={"/api/forms/".concat(item[1])}>
+              <Link to={"/forms/".concat(item[1])}>
                 {`${item[0]} (ID:${item[1]})`}
               </Link>
             </List.Item>
