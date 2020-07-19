@@ -35,6 +35,13 @@ export default class SingleForm extends React.Component {
     alert('Submitted')
     // console.log(values);
     console.log(this.data);
+    axios.post(serverAPI.concat('submit'), this.data)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   onFinishFailed = errorInfo => {
@@ -43,6 +50,7 @@ export default class SingleForm extends React.Component {
   };
 
   async componentDidMount() {
+    this.data['formId'] = this.props.match.params.id;
     axios
       .get(serverAPI.concat(this.props.match.params.id))
       .then((response) => {
@@ -101,9 +109,9 @@ export default class SingleForm extends React.Component {
               case "Location":
                 item = (
                   <Map
-                  name={element.name}
-                  title={element.title}
-                  onChange={this.dataOnChange}
+                    name={element.name}
+                    title={element.title}
+                    onChange={this.dataOnChange}
                   ></Map>
                 )
                 break;

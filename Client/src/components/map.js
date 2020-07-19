@@ -4,7 +4,7 @@ export class MainMap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: { lat: 37.778519, long: -122.40564 }
+            position: { lat: 35.699, long: 51.337 }
         };
     }
 
@@ -22,6 +22,7 @@ export class MainMap extends React.Component {
             <div style={{ width: '100%', height: 400, margin: 'auto' }}>
                 <Map google={this.props.google}
                     wrapperCol={{ sm: 24 }}
+                    initialCenter={{lat: 35.699, lng: 51.337}}
                     style={{ width: '100%', height: '100%', margin: 'auto' }}
                     className={'map'}
                     onClick={this.onClick}
